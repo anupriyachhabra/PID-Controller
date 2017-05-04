@@ -3,27 +3,27 @@
 using namespace std;
 
 /*
-* TODO: Complete the PID class.
+* Complete the PID class.
 */
 
 PID::PID() {}
 
 PID::~PID() {}
 
-const double tolerance = 0.001;
+const double tolerance = 0.01;
 
 void PID::Init(double Kp, double Ki, double Kd) {
   this->Kp = Kp;
   this->Ki = Ki;
   this->Kd = Kd;
   p_error = 0.1;
-  i_error = 0.1;
+  i_error = 0.001;
   d_error = 0.1;
 }
 
 void PID::UpdateError(double cte) {
-  double p[] = {Kp, Ki, Kd};
-  double dp[] = {p_error, i_error, d_error};
+  double p[] = {Kp, Kd};
+  double dp[] = {p_error, d_error};
   if (TotalError() > tolerance) {
 
     switch (current_state) {
@@ -55,18 +55,16 @@ void PID::UpdateError(double cte) {
         break;
       }
       case 3: {
-        last_optimize_index = (last_optimize_index + 1) % 3;
+        last_optimize_index = (last_optimize_index + 1) % 2;
         current_state = 0;
         break;
       }
     }
-    cout << "P values " << p[0] << " "<< p[1] << " " << p[2] << endl;
+    cout << "P values " << p[0] << " "<< p[1]  << endl;
     p_error = dp[0];
-    i_error = dp[1];
-    d_error = dp[2];
+    d_error = dp[1];
     Kp = p[0];
-    Ki = p[1];
-    Kd = p[2];
+    Kd = p[1];
   }
 }
 

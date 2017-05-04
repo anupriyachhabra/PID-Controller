@@ -1,5 +1,30 @@
 # CarND-Controls-PID
 Self-Driving Car Engineer Nanodegree Program
+Aim of this project is to run a car around Udacity's simulator using a PID Controller.
+
+
+## Reflections
+I have used PID controller with twiddle algorithm inside a state machine to optimize P,I, D parameters.
+The I part of the algorithm was causing huge gains in my steering values and was becoming very difficult to tune.
+With my first implementation my car was swerving left and right with -25 and +25 angles always.
+I contemplated on it for sometime and referred the lecture videos again and concluded that I parameter is
+for counteracting systematic bias and since we are in a simulator not a real world environment I concluded
+that there should not be any systematic bias. Hence I removed the I parameter and my car started driving smoother 
+with expected angles.
+
+Following is a video of my car driving aroung Udacity simulator. Please note this was done in a Mac simulator with
+screen resolution `1024 X 768` and Graphics Quality set to `Simple`.
+
+Here's a [link to my video result](https://youtu.be/PsiIExl6YI8)
+
+
+
+## Additional tuning
+* I have reduced the throttle of car to 0.1 when making turns so that it does not oversteer.
+* Also I found that I could play with tolerance factor in my twiddle algorithm for better optimization. I 
+started with tolerance factor of 0.001 and finally settled on 0.01. Tolerance factor which is too low causes
+unnecessary iterations of the twiddle algorithm
+
 
 ---
 
@@ -53,32 +78,3 @@ for instructions and the project rubric.
 
 * You don't have to follow this directory structure, but if you do, your work
   will span all of the .cpp files here. Keep an eye out for TODOs.
-
-## Call for IDE Profiles Pull Requests
-
-Help your fellow students!
-
-We decided to create Makefiles with cmake to keep this project as platform
-agnostic as possible. Similarly, we omitted IDE profiles in order to we ensure
-that students don't feel pressured to use one IDE or another.
-
-However! I'd love to help people get up and running with their IDEs of choice.
-If you've created a profile for an IDE that you think other students would
-appreciate, we'd love to have you add the requisite profile files and
-instructions to ide_profiles/. For example if you wanted to add a VS Code
-profile, you'd add:
-
-* /ide_profiles/vscode/.vscode
-* /ide_profiles/vscode/README.md
-
-The README should explain what the profile does, how to take advantage of it,
-and how to install it.
-
-Frankly, I've never been involved in a project with multiple IDE profiles
-before. I believe the best way to handle this would be to keep them out of the
-repo root to avoid clutter. My expectation is that most profiles will include
-instructions to copy files to a new location to get picked up by the IDE, but
-that's just a guess.
-
-One last note here: regardless of the IDE used, every submitted project must
-still be compilable with cmake and make./
